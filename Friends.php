@@ -1,5 +1,6 @@
 <?php
-class Hashs{
+
+class Friends{
 	//-MAIN
 	var $db;
 	function __construct()
@@ -9,10 +10,10 @@ class Hashs{
 	}
 
 	//-DB
-	function add($hash="")
+	function add($friend="")
 	{
-		if(!empty($hash)){
-			$sql = "INSERT INTO `hashs` (`hashtag`, `time`) VALUES ('".$this->splitHash($hash)."', CURRENT_TIMESTAMP);";
+		if(!empty($friend)){
+			$sql = "INSERT INTO `friends` (`friend`, `time`) VALUES ('".$this->splitFriend($friend)."', CURRENT_TIMESTAMP);";
 			$query = mysqli_query($this->db,$sql) or die(mysqli_error());
 
 			return true;
@@ -21,11 +22,11 @@ class Hashs{
 		}
 	}
 
-	function exists($hash="")
+	function exists($friend="")
 	{
 		$dados = array();
-		if(!empty($hash)){
-			$sql = "SELECT * FROM `hashs` WHERE hashtag = '".$this->splitHash($hash)."';";
+		if(!empty($friend)){
+			$sql = "SELECT * FROM `friends` WHERE hashtag = '".$this->splitFriend($friend)."';";
 			//-echo $sql."<br/>";
 			$result = mysqli_query($this->db,$sql) or die(mysqli_error());
 			$total_rows = mysqli_num_rows($result);
@@ -39,49 +40,47 @@ class Hashs{
 	}
 
 	//-WEB
-	function getHashtags($text)
+	function getFriends($text)
 	{
 		//Match the hashtags
-		preg_match_all('/(^|[^a-z0-9_])#([a-z0-9_]+)/i', $text, $matchedHashtags);
-		$hashtag = array();
+		preg_match_all('/(^|[^a-z0-9_])@([a-z0-9_]+)/i', $text, $matchedFriends);
+		$friendstag = array();
 
 		// For each hashtag, strip all characters but alpha numeric
-		if(!empty($matchedHashtags[0])) {
-			foreach($matchedHashtags[0] as $match) {
-				$hashtag[] = "#".preg_replace("/[^a-z0-9]+/i", "", $match);
+		if(!empty($matchedFriends[0])) {
+			foreach($matchedFriends[0] as $match) {
+				$friendstag[] = "@".preg_replace("/[^a-z0-9]+/i", "", $match);
 			}
 		}
-		return $hashtag;
+		return $friendstag;
 	}
 
-	function convertLinks($hashs=array())
+	function convertLinks($friends=array())
 	{
 		$links = array();
-		if(!empty($hashs)){
-			foreach($hashs as $i => $hash){
+		if(!empty($friends)){
+			foreach($friends as $i => $friend){
 				$links[$i] = preg_replace(
 					array(
 						'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))/', 
-						'/(^|[^a-z0-9_])@([a-z0-9_]+)/i', 
-						'/(^|[^a-z0-9_])#([a-z0-9_]+)/i'
+						'/(^|[^a-z0-9_])@([a-z0-9_]+)/i'
 					), 
 					array(
 						'<a href="$1" target="_blank">$1</a>', 
-						'$1<a href="">@$2</a>', 
-						'$1<a href="index.php?hashtag=$2">#$2</a>'
+						'$1<a href="index.php?friend=$2">@$2</a>'
 					), 
-				$hash);
+				$friend);
 			}
 		}
 
 		return $links;
 	}
 
-	function splitHash($hash="")
+	function splitFriend($friend="")
 	{
-		if(!empty($hash)){
-			$hash = preg_replace("/\#/","",$hash);
-			return strtolower($hash);
+		if(!empty($friend)){
+			$friend = preg_replace("/\@/","",$friend);
+			return strtolower($friend);
 		}
 	}
 
@@ -91,6 +90,5 @@ class Hashs{
 		print_r($dados);
 		echo "</pre>";
 	}
+
 }
-
-
