@@ -76,55 +76,22 @@
 		if(!empty($dataFile)){
 
 			echo "<div class='row'>";
+			
 			foreach($dataFile as $data){
-				/* HASHSTAG */
+				/* HASHSTAG*/
 				//-procura as hashs
 				$hashsArray = $Hashs->getHashtags($data);
-
-				//-converte as hashs encontradas em links
-				$hashsLinks = $Hashs->convertLinks($hashsArray);
-
-				if(!empty($hashsLinks)){
-					echo "<div class='col-6'>";
-						echo "<h3>HASHS</h3>";
-						echo "<ul>";
-						foreach($hashsLinks as $i => $hash){
-							//-verifica se a hash existe
-							//-$exist = $Hashs->exists($hashsArray[$i]);
-							if(empty($exist)){
-								//-inere a hash se não existir
-								//-$Hashs->add($hashsArray[$i]);
-							}
-
-							//-mostra as hash como link
-							echo "<li>".$hash."</li>";
-						}
-						echo "</ul>";
-					echo "</div>";
-				}
-
-				/* FRIENDS*/
-				//-procura as hashs
 				$friendsArray = $Friends->getFriends($data);
-
-				//-converte as hashs encontradas em links
-				$friendsLinks = $Friends->convertLinks($friendsArray);
-
-				if(!empty($friendsLinks)){
-					echo "<div class='col-6'>";
-						echo "<h3>FRIENDS</h3>";
+				if((!empty($hashsLinks)) || (!empty($friendsArray))){
+					echo "<div class='col-12'>";
 						echo "<ul>";
-							foreach($friendsLinks as $i => $friend){
-								//-verifica se a hash existe
-								//-$exist = $Friends->exists($friendsArray[$i]);
-								if(empty($exist)){
-									//-inere a hash se não existir
-									//-$Friends->add($friendsArray[$i]);
-								}
 
-								//-mostra as hash como link
-								echo "<li>".$friend."</li>";
-							}
+							//-converte as hashs encontradas em links
+							$hashLink = $Hashs->convertLinks($data);
+							$friendsLinks = $Friends->convertLinks($hashLink);
+							echo "<li>".$friendsLinks."</li>";
+
+
 						echo "</ul>";
 					echo "</div>";
 				}

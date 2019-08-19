@@ -55,12 +55,12 @@ class Friends{
 		return $friendstag;
 	}
 
-	function convertLinks($friends=array())
+	function convertLinks($friend="")
 	{
-		$links = array();
-		if(!empty($friends)){
-			foreach($friends as $i => $friend){
-				$links[$i] = preg_replace(
+		$link = '';
+		if(!empty($friend)){
+			//-foreach($friends as $i => $friend){
+				$link = preg_replace(
 					array(
 						'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))/', 
 						'/(^|[^a-z0-9_])@([a-z0-9_]+)/i'
@@ -70,10 +70,10 @@ class Friends{
 						'$1<a href="index.php?friend=$2">@$2</a>'
 					), 
 				$friend);
-			}
+			//-}
 		}
 
-		return $links;
+		return $link;
 	}
 
 	function splitFriend($friend="")

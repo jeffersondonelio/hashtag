@@ -54,27 +54,23 @@ class Hashs{
 		return $hashtag;
 	}
 
-	function convertLinks($hashs=array())
+	function convertLinks($text='')
 	{
-		$links = array();
-		if(!empty($hashs)){
-			foreach($hashs as $i => $hash){
-				$links[$i] = preg_replace(
-					array(
-						'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))/', 
-						'/(^|[^a-z0-9_])@([a-z0-9_]+)/i', 
-						'/(^|[^a-z0-9_])#([a-z0-9_]+)/i'
-					), 
-					array(
-						'<a href="$1" target="_blank">$1</a>', 
-						'$1<a href="">@$2</a>', 
-						'$1<a href="index.php?hashtag=$2">#$2</a>'
-					), 
-				$hash);
-			}
+		$link = '';
+		if(!empty($text)){
+			$link = preg_replace(
+				array(
+					'/(?i)\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?«»“”‘’]))/',
+					'/(^|[^a-z0-9_])#([a-z0-9_]+)/i'
+				), 
+				array(
+					'<a href="$1" target="_blank">$1</a>',
+					'$1<a href="index.php?hashtag=$2">#$2</a>'
+				), 
+			$text);
 		}
 
-		return $links;
+		return $link;
 	}
 
 	function splitHash($hash="")
