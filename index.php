@@ -105,7 +105,7 @@
 $(function(){
 
 	var jeremy = decodeURI("J%C3%A9r%C3%A9my") // Jérémy
-	var names = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你", jeremy];
+	var names = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","Abigail","Noah","Chloe","你好","你你你", jeremy,"Jefferson Dornelio"];
 	$('#text').atwho({
 		at: "@",
 		data: names,
