@@ -56,6 +56,20 @@ class Hashs{
 
 	function convertLinks($text='')
 	{
+		$text = 'fklsdmkfas <a class=""></a><a class=""></a><a class="">#</a>fala <a class="atwho-inserted" href="https://tappify.net/hashs.php?hash=757457547574757457" contenteditable="false" style="font-weight: bold;">#757457547574757457</a>&nbsp; sddnjk blz blz <a class="atwho-inserted" href="https://tappify.net/hashs.php?hash=#foi" contenteditable="false" style="font-weight: bold;">#foi</a>&nbsp;jdskjnfasdjnf&nbsp;';
+		if(!empty($text)){
+			//-quebra o texto por espaços 
+			$text = preg_split('/(^|[^a-z0-9_])#([a-z0-9_]+)/i',htmlentities($text));
+			$text = preg_split('/\s/',$text[0]);
+			echo "<pre>";
+			print_r($text);
+			echo "</pre>";
+			
+			
+			die();
+		}
+
+/*
 		$link = '';
 		if(!empty($text)){
 			$link = preg_replace(
@@ -71,6 +85,7 @@ class Hashs{
 		}
 
 		return $link;
+*/
 	}
 
 	function splitHash($hash="")

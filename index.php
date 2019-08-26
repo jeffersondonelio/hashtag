@@ -131,7 +131,6 @@ $(function(){
 			afterMatchFailed: function(at, el) {
 				if (at == '#') {
 					tags.push(el.text().trim().slice(1));
-					this.model.save(tags);
 					this.insert(el.text().trim());
 					return false;
 				}
